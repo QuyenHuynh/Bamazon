@@ -92,7 +92,7 @@ function promptPurchase() {
             }, {
               stock_quantity: inStock
             }], function (err, res) {
-              console.log(res.affectedRows + " product(s) updated!\n");
+              console.log(res.affectedRows + " product updated!\n");
               console.log("Your total cost is $" + totalCost);
               connection.end();
             }
