@@ -94,14 +94,32 @@ function promptPurchase() {
             }], function (err, res) {
               console.log(res.affectedRows + " product(s) updated!\n");
               console.log("Your total cost is $" + totalCost);
+              connection.end();
             }
         );
-        //otherwise, inform user of insufficient quanitities
       } else {
-        console.log("Sorry. We have insufficient quantities.");
-        promptPurchase();
+        console.log("Sorry. We have insufficient quantities.\n");
+        tryAgain();
       }
-      connection.end();
     });
+  });
+}
+
+//In the case of insufficient quantities, prompt use if they would like to attempt another purchase or exit application
+function tryAgain() {
+  inquirer.prompt([
+    {
+      type: "list",
+      name: "tryagain",
+      message: "Would you like to attempt another purchase or exit?",
+      choices: ["Another purchase", "Exit"]
+    }
+  ]).then(function (response) {
+    if (response.tryagain == "Another purchase") {
+      promptPurchase();
+    } else {
+      console.log("Come back again soon!");
+      connection.end();
+    }
   });
 }
