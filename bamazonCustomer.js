@@ -99,6 +99,7 @@ function promptPurchase() {
         //otherwise, inform user of insufficient quanitities
       } else {
         console.log("Sorry. We have insufficient quantities.");
+        promptPurchase();
       }
       connection.end();
     });
