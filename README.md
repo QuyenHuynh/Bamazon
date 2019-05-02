@@ -31,7 +31,7 @@ The manager interface presents a list of four options, as below.
 	  
 The **View Products for Sale** option allows the user to view the current inventory of store items: item IDs, descriptions, department in which the item is located, price, and the quantity available in stock. 
 
-The **View Low Inventory** option shows the user the items which currently have fewer than 100 units available.
+The **View Low Inventory** option shows the user the items which currently have fewer than 5 units available.
 
 The **Add to Inventory** option allows the user to select a given item ID and add additional inventory to the target item.
 

@@ -78,7 +78,7 @@ function viewlowInventory() {
     connection.query("SELECT * FROM products WHERE stock_quantity < 5"), function (error, result) {
         if (error) throw error;
         console.log("Displaying low inventory products...");
-        console.log(result);
+        console.table(result);
         anotherCommand();
     }
 }
@@ -133,7 +133,7 @@ function addnewProduct() {
             type: "input",
             name: "price",
             message: "How much does each unit cost?",
-            validate: validateID
+            validate: validateQuantity
         },
         {
             type: "input",
@@ -149,7 +149,8 @@ function addnewProduct() {
         var price = parseFloat(response.price);
         var stock = parseInt(response.stock);
         var newProduct = [product, department, price, stock];
-        connection.query("INSERT INTO products SET ? ", newProduct, function (err, res) {
+        connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES (?, ? , ?, ?)", newProduct, function (err, res) {
+            if (err) throw err;
             console.log("Success! Your new product is now available for sale.")
             viewProducts();
             anotherCommand();
