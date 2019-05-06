@@ -45,3 +45,10 @@ To run the manager interface please follow the steps below:
 	node bamazonManager.js
 
 ### Bamazon Demo
+
+**Customer View**
+![customer view](../master/images/customerview.gif)
+
+
+**Manager View**
+![manager view](../master/images/managerview.gif)

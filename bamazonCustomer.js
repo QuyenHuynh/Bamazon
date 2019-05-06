@@ -27,23 +27,15 @@ function main() {
 }
 main();
 
-//Function that validates ID input for inquirer prompt
-function validateID(value) {
-  if ((typeof parseInt(value) == 'number') && (parseInt(value) >= 1) && (value <= 10)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-//Function that validates quantity input for inquirer prompt
-function validateQuantity(value) {
+//Function that validates input for inquirer prompt
+function validateInput(value) {
   if ((typeof parseInt(value) == 'number') && (parseInt(value) >= 1)) {
     return true;
   } else {
     return false;
   }
 }
+
 
 //Display products function
 function showProducts() {
@@ -56,18 +48,19 @@ function showProducts() {
 
 //Executes inquirer prompts
 function promptPurchase() {
+
   inquirer.prompt([
     {
       type: "input",
       name: "id",
       message: "Please enter the ID of the product that you would like to purchase.",
-      validate: validateID
+      validate: validateInput
     },
     {
       type: "input",
       name: "quantity",
       message: "How many would you like?",
-      validate: validateQuantity
+      validate: validateInput
     }
   ]).then(function (response) {
 

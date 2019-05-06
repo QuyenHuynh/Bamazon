@@ -17,23 +17,14 @@ connection.connect(function (err) {
     console.log("connected as id " + connection.threadId);
 });
 
-//Function that validates ID input for inquirer prompt
-function validateID(value) {
-    if ((typeof parseInt(value) == 'number') && (parseInt(value) >= 1) && (value <= 10)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-//Function that validates quantity input for inquirer prompt
-function validateQuantity(value) {
+//Function that validates input for inquirer prompt
+function validateInput(value) {
     if ((typeof parseInt(value) == 'number') && (parseInt(value) >= 1)) {
-        return true;
+      return true;
     } else {
-        return false;
+      return false;
     }
-}
+  }
 
 function mainPrompt() {
     inquirer.prompt([
@@ -65,6 +56,7 @@ function mainPrompt() {
 }
 mainPrompt();
 
+
 function viewProducts() {
     connection.query("SELECT * FROM products", function (error, result) {
         if (error) throw error;
@@ -75,13 +67,19 @@ function viewProducts() {
 }
 
 function viewlowInventory() {
-    connection.query("SELECT * FROM products WHERE stock_quantity < 5"), function (error, result) {
-        if (error) throw error;
-        console.log("Displaying low inventory products...");
-        console.table(result);
-        anotherCommand();
-    }
-}
+    connection.query("SELECT * FROM products WHERE stock_quantity < 5",
+        function (err, res) {
+            if (err) throw err;
+            if (res.length === 0) {
+                console.log("No low inventory");
+            }
+            else {
+                console.table(res);
+            };
+            anotherCommand();
+        }
+    );
+};
 
 function addtoInventory() {
     inquirer.prompt([
@@ -89,13 +87,13 @@ function addtoInventory() {
             type: "input",
             name: "id",
             message: "Please enter the ID of the product that you would like to restock",
-            validate: validateID
+            validate: validateInput
         },
         {
             type: "input",
             name: "quantity",
             message: "How units are being added?",
-            validate: validateQuantity
+            validate: validateInput
         }
     ]).then(function (response) {
         var id = parseInt(response.id);
@@ -133,16 +131,15 @@ function addnewProduct() {
             type: "input",
             name: "price",
             message: "How much does each unit cost?",
-            validate: validateQuantity
+            validate: validateInput
         },
         {
             type: "input",
             name: "stock",
             message: "How many units are you adding?",
-            validate: validateQuantity
+            validate: validateInput
         }
     ]).then(function (response) {
-
         console.log("Adding your new product to the database...");
         var product = response.product;
         var department = response.department;
@@ -153,7 +150,6 @@ function addnewProduct() {
             if (err) throw err;
             console.log("Success! Your new product is now available for sale.")
             viewProducts();
-            anotherCommand();
         });
     });
 }
